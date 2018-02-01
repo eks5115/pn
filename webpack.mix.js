@@ -1,5 +1,7 @@
 let mix = require('laravel-mix');
+const resolve = require('./webpack.config.js').resolve;
 
+mix.webpackConfig({ resolve });
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -13,3 +15,5 @@ let mix = require('laravel-mix');
 
 mix.js('resources/assets/js/index.js', 'public/js')
    .sass('resources/assets/sass/app.scss', 'public/css');
+
+mix.copy('resources/assets/img', 'public/img');

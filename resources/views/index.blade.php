@@ -7,7 +7,7 @@
 </head>
 <body>
 <div id="app"></div>
-
+@include('js-vars')
 <script src="js/index.js"></script>
 </body>
 </html>

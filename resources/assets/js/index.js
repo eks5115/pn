@@ -6,6 +6,7 @@
  */
 
 import App from './app.vue';
+import { http } from './services';
 
 require('./bootstrap');
 
@@ -20,4 +21,7 @@ window.Vue = require('vue');
 const app = new Vue({
   el: '#app',
   render: h => h(App),
+  created () {
+    http.init()
+  }
 });

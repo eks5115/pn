@@ -1,9 +1,11 @@
 <template>
   <div>
-    <form v-on:submit="login">
-      <input v-model="email" type="email" placeholder="Email Address"/>
-      <input v-model="password" type="password" placeholder="Password"/>
-      <button type="submit">Log In</button>
+    <form v-on:submit.prevent="login">
+      <div class="form-group">
+        <input v-model="email" class="form-control" type="email" placeholder="Email Address"/>
+        <input v-model="password" class="form-control" type="password" placeholder="Password"/>
+      </div>
+      <button class="btn btn-default" type="submit">LogIn</button>
     </form>
   </div>
 </template>

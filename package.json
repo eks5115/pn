@@ -19,6 +19,7 @@
     "dependencies": {
         "axios": "^0.17.1",
         "local-storage": "^1.4.2",
+        "query-string": "^5.1.0",
         "vue": "^2.5.13"
     }
 }

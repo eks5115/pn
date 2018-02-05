@@ -33,21 +33,38 @@ export const http = {
     axios.defaults.baseURL = window.BASE_URL+'api';
 
     // Intercept the request to make sure the token is injected into the header.
-    axios.interceptors.request.use(config => {
-      config.headers.Authorization = `Bearer ${ls.get('jwt-token')}`;
-      return config
-    });
+    axios.interceptors.request.use(
+      config => {
+        config.headers.Authorization = `Bearer ${ls.get('jwt-token')}`;
+        return config;
+      },
+      error => {
+        return Promise.reject(error);
+      }
+    );
 
     // Intercept the response and…
-    axios.interceptors.response.use(response => {
+    axios.interceptors.response.use(
+      response => {
+        // …get the token from the header or response data if exists, and save it.
+        const token = response.headers['Authorization'] || response.data['token'];
+        token && ls.set('jwt-token', token);
 
-      // …get the token from the header or response data if exists, and save it.
-      const token = response.headers['Authorization'] || response.data['token'];
-      token && ls.set('jwt-token', token);
+        return response;
+      },
 
-      return response
-    }, error => {
-      return Promise.reject(error)
-    })
+      error => {
+        if (error.response) {
+          switch (error.response.status) {
+            case 401:
+              // 401 Unauthorized
+              ls.remove('jwt-token');
+              location.href = window.BASE_URL;
+          }
+        }
+
+        return Promise.reject(error);
+      }
+    );
   }
 };

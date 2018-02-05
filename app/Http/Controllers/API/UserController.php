@@ -5,12 +5,15 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\UserStoreRequest;
 use App\Http\Requests\API\UserUpdateRequest;
+use App\Http\Resources\UserResource;
 use App\User;
 use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use RuntimeException;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class UserController extends Controller
 {
@@ -68,5 +71,15 @@ class UserController extends Controller
         $this->authorize('destroy', $user);
 
         return response()->json($user->delete());
+    }
+
+    /**
+     * get the user profile
+     *
+     * @param Request $request
+     * @return UserResource
+     */
+    public function me(Request $request) {
+        return new UserResource($request->user());
     }
 }

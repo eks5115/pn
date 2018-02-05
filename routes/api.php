@@ -20,12 +20,19 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['namespace' => 'API'], function () {
     Route::post('/auth', 'AuthController@login');
+    Route::patch('/auth', 'AuthController@update');
     Route::delete('/auth', 'AuthController@logout');
+
+    Route::get('login/github', 'AuthController@redirectToProvider');
+    Route::get('login/github/callback', 'AuthController@handleProviderCallback');
 
     Route::group(['middleware' => 'jwt.auth'], function () {
         Route::get('/', function () {
             // Just acting as a ping service.
         });
+
+        Route::get('/user', 'UserController@me')
+            ->name('api.user.show');
 
     });
 });
